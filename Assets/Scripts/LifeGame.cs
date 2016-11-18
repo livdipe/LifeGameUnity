@@ -4,11 +4,11 @@ using UnityEngine.UI;
 
 public class LifeGame : MonoBehaviour 
 {
-	int row = 8;
-	int col = 8;
+	int row = 16;
+	int col = 16;
 	int[,] states;
 	int[,] cacheStates;
-	public Material material;
+	public Material[] materials;
 	void Start()
 	{
 		InitShader();
@@ -26,13 +26,12 @@ public class LifeGame : MonoBehaviour
 
 	void InitShader() 
 	{
-		int total = row * col;
-		material.SetFloat("_BoardSize", row);
-		material.SetFloat("_BlockSize", 1.0f / row);
-		material.SetFloat("_TotalBlock", total);
-		for (int i = 0; i < total; i++)
+		for (int i = 0; i < 64; i++)
 		{
-			material.SetFloat("_Vals" + i.ToString(), 0);
+			for (int j = 0; j < materials.Length; j++)
+			{
+				materials[j].SetFloat("_Vals" + i.ToString(), 0);
+			}
 		}
 	}
 
@@ -69,7 +68,17 @@ public class LifeGame : MonoBehaviour
 
 	void SetColor(int i, int j)
 	{
-		material.SetFloat("_Vals" + (i * col + j).ToString(), states[i,j]);
+		int x = 0;
+		int y = 0;
+		if (i >= 8)
+			x = 1;
+		if (j >= 8)
+			y = 1;
+		int idx = x * 2 + y;
+		int ii = i % 8;
+		int jj = j % 8;
+
+		materials[idx].SetFloat("_Vals" + (ii * 8 + jj).ToString(), states[i,j]);
 	}
 
 	void UpdateState()

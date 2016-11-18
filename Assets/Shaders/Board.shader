@@ -9,6 +9,7 @@
 		_LineWidthHalf ("Half width of middle line (uv)", Range(0,1)) = 0.003
 		_BoardSize ("Board Size", Float) = 8
 		_BlockSize ("Block Size", Float) = 0.125
+		_TotalBlock ("Total Block", Float) = 64
 	}
 	
 	SubShader 
@@ -28,7 +29,7 @@
 			half _LineWidthHalf;
 			half _BoardSize;
 			half _BlockSize;
-			uniform half _TotalBlock = 0;
+			half _TotalBlock;
 			uniform half _Vals[64];
 
 			bool isborder(half2 uv)
